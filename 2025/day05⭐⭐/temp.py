@@ -1,14 +1,18 @@
-from itertools import chain, groupby
+l=[1,2,3,4,4,5,5,6]
+l.remove(4)
+print(l)
 
-r = range(2,7)
-s = range(4,10)
-t = range(5,12)
+# from itertools import chain, groupby
 
-u = [r ,s ,t]
+# r = range(2,7)
+# s = range(4,10)
+# t = range(5,12)
 
-v = set().union(w for w in u)
+# u = [r ,s ,t]
 
-print(v)
+# v = set().union(w for w in u)
+
+# print(v)
 # w = chain(r,s,t)
 # y = set()
 

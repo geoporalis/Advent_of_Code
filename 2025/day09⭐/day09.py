@@ -36,6 +36,7 @@ def getRect(p1,p2):
 
 print('start rect')
 p2list = []
+
 for i, p1 in enumerate(points):
     for j, p2 in enumerate(points):
         if j > i:

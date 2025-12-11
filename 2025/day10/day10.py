@@ -1,28 +1,35 @@
 from pathlib import Path
 from math import prod
+from itertools import combinations
 
-example = True # False #  
+example = False # True #  
 
 dir = Path(__file__).parent.resolve()
 file = Path(dir/'input').resolve() if not example else Path(dir/'example').resolve()
 
-lights=[]
-buttons=[]
-joltage=[]
-for line in open(file).read().split('\n'):
-    light, rest = line.split('] (')
-    button, jolt = rest.split(') {')
-    lights.append([1 if l=='#' else 0 for l in light.strip('[') ])
-    joltage.append([int(j) for j in jolt.strip('}').split(',')])
-    buttons.append([[int(b) for bu in br.split(',') for b in bu ] for br in button.replace('(','').replace(')','').split(" ")])
+part1 = 0
 
-for i, but in enumerate(buttons):
-    print(lights[i],end=' ')
-    for b in but: print(b, end=' ')
-    print(joltage[i])
+for diagram, *buttons, joltage in map(str.split, open(file)):
+    diagram = [c=='#' for c in diagram[1:-1]]
+    buttons = [eval(b[:-1]+',)') for b in buttons]
+    joltage = eval(joltage[1:-1])
+    numbers = range(len(joltage))
 
-# part1, part2 = 0, 0
+    def toggle(buttons):
+        for n in numbers:
+            for pressed in combinations(buttons, n):
+                if diagram == [sum(i in p for p in pressed)%2 for i in numbers]: return n
+                # lights = [sum(i in p for p in pressed)%2 for i in numbers]
+                # if lights == diagram: return n
 
+                # lights=[]
+                # for i in numbers:             # diagram/light positions
+                #     li = 0
+                #     for p in pressed:         # buttons of combinations
+                #         li += i in p          # is diagram position in button
+                #     lights.append(li%2)       # odd times pressed = true/on, even times pressed = false/off
 
-# sol1 = 50 if example else 4760959496
-# print(part1, (part1 == sol1) , part1 - sol1)
+    part1 += toggle(buttons)
+
+sol1 = 7 if example else 475
+print(part1, (part1 == sol1) , part1 - sol1)
